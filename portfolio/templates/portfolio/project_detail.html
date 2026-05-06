@@ -1,0 +1,74 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}{{ project.title }} - AI Portfolio{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 class="mb-3">{{ project.title }}</h1>
+            <p class="lead text-muted">{{ project.summary }}</p>
+
+            {% if project.screenshot %}
+            <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="img-fluid mb-4 rounded">
+            {% endif %}
+
+            <hr>
+
+            <h3 class="mt-4 mb-3">Business Problem</h3>
+            <p>{{ project.business_problem }}</p>
+
+            <h3 class="mt-4 mb-3">Key Features</h3>
+            <div class="bg-light p-3 rounded">
+                {{ project.key_features|linebreaks }}
+            </div>
+
+            <h3 class="mt-4 mb-3">Tools & Technologies</h3>
+            <div>
+                {% for tool in project.tools_used|split:"," %}
+                <span class="badge bg-primary mb-2">{{ tool|strip }}</span>
+                {% endfor %}
+            </div>
+
+            <h3 class="mt-4 mb-3">My Role</h3>
+            <p>{{ project.your_role }}</p>
+
+            <h3 class="mt-4 mb-3">Biggest Challenge</h3>
+            <p>{{ project.biggest_challenge }}</p>
+
+            <h3 class="mt-4 mb-3">What I Learned</h3>
+            <div class="bg-light p-3 rounded">
+                {{ project.what_learned|linebreaks }}
+            </div>
+
+            {% if project.link %}
+            <div class="mt-4">
+                <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-lg">View on GitHub</a>
+            </div>
+            {% endif %}
+
+            <div class="mt-4">
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary">← Back to Projects</a>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card sticky-top">
+                <div class="card-body">
+                    <h5 class="card-title">Project Info</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <strong>Title:</strong><br>
+                            {{ project.title }}
+                        </li>
+                        <li class="mb-3">
+                            <strong>Technologies:</strong><br>
+                            <small>{{ project.tools_used }}</small>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

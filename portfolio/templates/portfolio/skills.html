@@ -1,0 +1,63 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}Skills - AI Portfolio{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Technical Skills</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Languages</h5>
+                    <div>
+                        {% for skill in skills.languages %}
+                        <span class="badge bg-info mb-2">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">AI & LLM Tools</h5>
+                    <div>
+                        {% for skill in skills.ai_tools %}
+                        <span class="badge bg-warning text-dark mb-2">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Frameworks & Libraries</h5>
+                    <div>
+                        {% for skill in skills.frameworks %}
+                        <span class="badge bg-success mb-2">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Other Skills</h5>
+                    <div>
+                        {% for skill in skills.other %}
+                        <span class="badge bg-danger mb-2">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

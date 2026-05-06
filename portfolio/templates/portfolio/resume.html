@@ -1,0 +1,37 @@
+{% extends 'portfolio/base.html' %}
+
+{% block title %}Resume - AI Portfolio{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="mb-4">Resume</h1>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4>Resume</h4>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Download PDF</a>
+                    </div>
+                    <p class="text-muted">Your PDF resume viewer will appear here once uploaded to the admin panel.</p>
+                    <div class="bg-light p-5 text-center rounded">
+                        <p class="text-muted">📄 PDF Viewer</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>To Add Your Resume:</h3>
+            <ol>
+                <li>Go to <a href="{% url 'admin:index' %}">Admin Panel</a></li>
+                <li>Create a resume file and upload it</li>
+                <li>The PDF will be displayed here</li>
+            </ol>
+
+            <h3 class="mt-4">Alternative</h3>
+            <p>You can also display your resume content directly by modifying this template or creating a separate
+                resume PDF upload system in your admin panel.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
