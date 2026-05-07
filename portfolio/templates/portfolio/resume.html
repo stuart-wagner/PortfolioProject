@@ -16,7 +16,7 @@
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-lg-8 offset-lg-2">
+        <div class="col-lg-10 offset-lg-1">
             <div class="card"
                 style="border: 1px solid var(--border-color); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);">
                 <div class="card-body p-4">
@@ -24,10 +24,20 @@
                         <h4 style="color: var(--primary); margin-bottom: 0;">
                             <i class="fas fa-file-pdf" style="color: #e63946; margin-right: 0.5rem;"></i>Resume
                         </h4>
-                        <a href="#" class="btn btn-outline-primary">
+                        {% if resume %}
+                        <a href="{{ resume.file.url }}" class="btn btn-outline-primary" target="_blank" download>
                             <i class="fas fa-download"></i> Download PDF
                         </a>
+                        {% endif %}
                     </div>
+
+                    {% if resume %}
+                    <div
+                        style="height: 800px; width: 100%; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden;">
+                        <iframe src="{{ resume.file.url }}#toolbar=0&navpanes=0&scrollbar=1"
+                            style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                    </div>
+                    {% else %}
                     <p style="color: var(--text-secondary);">Your PDF resume viewer will appear here once uploaded to
                         the admin panel.</p>
                     <div
@@ -38,9 +48,11 @@
                             Viewer
                         </p>
                     </div>
+                    {% endif %}
                 </div>
             </div>
 
+            <!--
             <div class="card mt-4" style="border: 1px solid var(--border-color);">
                 <div class="card-body">
                     <h5 style="color: var(--primary); margin-bottom: 1.5rem;">
@@ -65,15 +77,17 @@
                     </p>
                 </div>
             </div>
+            -->
 
             <div class="mt-4 p-4 rounded text-center"
                 style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 168, 204, 0.1) 100%); border: 1px solid var(--accent);">
                 <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                    <i class="fas fa-info-circle" style="color: var(--accent);"></i> <strong>Pro Tip:</strong> A
-                    well-organized resume is your first impression. Make it count!
+                    <i class="fas fa-info-circle" style="color: var(--accent);"></i> <strong>Any Questions? </strong>
+                    Send me
+                    a message, and I will be happy to help!
                 </p>
                 <a href="{% url 'portfolio:contact' %}" class="btn btn-secondary btn-sm">
-                    <i class="fas fa-envelope"></i> Have Questions?
+                    <i class="fas fa-envelope"></i> Contact Me
                 </a>
             </div>
         </div>

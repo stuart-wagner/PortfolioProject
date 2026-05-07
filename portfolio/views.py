@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 from django.core.mail import send_mail
 from django.contrib import messages
-from .models import Project
+from django.conf import settings
+from .models import Project, Resume
 from .forms import ContactForm
 
 
@@ -42,7 +43,8 @@ def skills(request):
 
 
 def resume(request):
-    return render(request, 'portfolio/resume.html')
+    active_resume = Resume.objects.filter(is_active=True).first()
+    return render(request, 'portfolio/resume.html', {'resume': active_resume})
 
 
 def contact(request):
@@ -58,14 +60,14 @@ def contact(request):
                     subject=f"New message from {name}",
                     message=message,
                     from_email=email,
-                    recipient_list=['your-email@example.com'],
+                    recipient_list=[settings.EMAIL_HOST_USER],
                     fail_silently=False,
                 )
                 messages.success(request, 'Message sent successfully!')
             except Exception as e:
                 messages.error(request, f'Error sending message: {str(e)}')
 
-            return render(request, 'portfolio/contact.html', {'form': form})
+            return redirect('portfolio:contact')
     else:
         form = ContactForm()
 

@@ -24,3 +24,20 @@ class Project(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+class Resume(models.Model):
+    file = models.FileField(upload_to='resumes/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True, help_text="Set to True to display this resume. Only one should be active.")
+
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            # Set all other resumes to inactive
+            Resume.objects.filter(is_active=True).update(is_active=False)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Resume uploaded on {self.uploaded_at.strftime('%Y-%m-%d %H:%M')}"
+
+    class Meta:
+        ordering = ['-uploaded_at']
