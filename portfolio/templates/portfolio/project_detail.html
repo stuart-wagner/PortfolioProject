@@ -95,9 +95,15 @@
 
             <div class="d-flex gap-3 flex-wrap">
                 {% if project.link %}
+                {% if 'github.com' in project.link %}
                 <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-lg">
                     <i class="fab fa-github"></i> View on GitHub
                 </a>
+                {% else %}
+                <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-lg">
+                    <i class="fas fa-external-link-alt"></i> View Project
+                </a>
+                {% endif %}
                 {% endif %}
                 <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary btn-lg">
                     <i class="fas fa-arrow-left"></i> Back to Projects
