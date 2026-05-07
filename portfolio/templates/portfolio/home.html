@@ -1,47 +1,69 @@
 {% extends 'portfolio/base.html' %}
 
-{% block title %}Home - AI Portfolio{% endblock %}
+{% block title %}Home - Data Portfolio{% endblock %}
 
 {% block content %}
 <div class="hero">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-8">
-                <h1 class="display-4 mb-4">Welcome to My AI Portfolio</h1>
-                <p class="lead mb-4">Showcasing technical projects in AI, automation, and full-stack development.
-                    Exploring the intersection of machine learning and practical applications.</p>
-                <a href="{% url 'portfolio:projects' %}" class="btn btn-light btn-lg">View All Projects</a>
+            <div class="col-lg-8">
+                <h1><i class="fas fa-chart-pie" style="margin-right: 1rem;"></i>Data-Driven Insights</h1>
+                <p class="lead mb-4">Transforming complex datasets into actionable intelligence. A portfolio showcasing
+                    expertise in data analysis, visualization, and strategic decision-making through advanced analytics.
+                </p>
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-hero btn-lg">
+                    <i class="fas fa-arrow-right"></i> Explore My Work
+                </a>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container my-5">
-    <h2 class="mb-4">Featured Projects</h2>
+    <div class="row mb-5">
+        <div class="col-lg-8 offset-lg-2">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Featured Projects</h2>
+        </div>
+    </div>
+
     <div class="row">
         {% for project in featured_projects %}
-        <div class="col-md-4 mb-4">
-            <div class="card project-card h-100">
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card project-card">
                 {% if project.screenshot %}
                 <img src="{{ project.screenshot.url }}" class="card-img-top" alt="{{ project.title }}">
                 {% else %}
                 <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
-                    style="height: 200px;">
-                    <span class="text-muted">No image</span>
+                    style="height: 220px; background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;">
+                    <span class="text-white"><i class="fas fa-image" style="font-size: 3rem; opacity: 0.3;"></i></span>
                 </div>
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ project.title }}</h5>
-                    <p class="card-text">{{ project.summary }}</p>
-                    <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-primary">View Details</a>
+                    <p class="card-text small text-secondary-light">{{ project.summary }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-primary btn-sm w-100">
+                        <i class="fas fa-arrow-right"></i> View Details
+                    </a>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <p class="text-muted">No projects available yet.</p>
+            <div class="alert alert-info text-center">
+                <i class="fas fa-inbox"></i> No projects available yet.
+            </div>
         </div>
         {% endfor %}
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-8 offset-lg-2 text-center">
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary btn-lg">
+                View All Projects <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}

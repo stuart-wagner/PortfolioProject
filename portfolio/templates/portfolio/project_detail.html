@@ -1,69 +1,125 @@
 {% extends 'portfolio/base.html' %}
+{% load custom_filters %}
 
-{% block title %}{{ project.title }} - AI Portfolio{% endblock %}
+{% block title %}{{ project.title }} - Data Portfolio{% endblock %}
 
 {% block content %}
+<div class="py-5" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+    <div class="container">
+        <h1 style="color: white; margin-bottom: 0.5rem;">
+            <i class="fas fa-briefcase"></i> {{ project.title }}
+        </h1>
+        <p class="lead" style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+            {{ project.summary }}
+        </p>
+    </div>
+</div>
+
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-8">
-            <h1 class="mb-3">{{ project.title }}</h1>
-            <p class="lead text-muted">{{ project.summary }}</p>
-
             {% if project.screenshot %}
-            <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="img-fluid mb-4 rounded">
+            <img src="{{ project.screenshot.url }}" alt="{{ project.title }}" class="img-fluid mb-4 rounded"
+                style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);">
             {% endif %}
 
-            <hr>
-
-            <h3 class="mt-4 mb-3">Business Problem</h3>
-            <p>{{ project.business_problem }}</p>
-
-            <h3 class="mt-4 mb-3">Key Features</h3>
-            <div class="bg-light p-3 rounded">
-                {{ project.key_features|linebreaks }}
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-target" style="color: var(--accent); margin-right: 0.5rem;"></i>Business
+                        Problem
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">{{ project.business_problem }}</p>
+                </div>
             </div>
 
-            <h3 class="mt-4 mb-3">Tools & Technologies</h3>
-            <div>
-                {% for tool in project.tools_used|split:"," %}
-                <span class="badge bg-primary mb-2">{{ tool|strip }}</span>
-                {% endfor %}
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-star" style="color: var(--accent); margin-right: 0.5rem;"></i>Key Features
+                    </h3>
+                    <div
+                        style="background: var(--light-bg); padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); color: var(--text-secondary); line-height: 1.8;">
+                        {{ project.key_features|linebreaks }}
+                    </div>
+                </div>
             </div>
 
-            <h3 class="mt-4 mb-3">My Role</h3>
-            <p>{{ project.your_role }}</p>
-
-            <h3 class="mt-4 mb-3">Biggest Challenge</h3>
-            <p>{{ project.biggest_challenge }}</p>
-
-            <h3 class="mt-4 mb-3">What I Learned</h3>
-            <div class="bg-light p-3 rounded">
-                {{ project.what_learned|linebreaks }}
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-tools" style="color: var(--accent); margin-right: 0.5rem;"></i>Tools &
+                        Technologies
+                    </h3>
+                    <div>
+                        {% for tool in project.tools_used|split:"," %}
+                        <span class="badge bg-info mb-2" style="font-size: 0.9rem; padding: 0.6rem 1rem;">
+                            <i class="fas fa-cube"></i> {{ tool|strip_spaces }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
 
-            {% if project.link %}
-            <div class="mt-4">
-                <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-lg">View on GitHub</a>
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-user-tie" style="color: var(--accent); margin-right: 0.5rem;"></i>My Role
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">{{ project.your_role }}</p>
+                </div>
             </div>
-            {% endif %}
 
-            <div class="mt-4">
-                <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary">← Back to Projects</a>
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-exclamation-triangle"
+                            style="color: var(--accent); margin-right: 0.5rem;"></i>Biggest Challenge
+                    </h3>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">{{ project.biggest_challenge }}</p>
+                </div>
+            </div>
+
+            <div class="card mb-4" style="border: 1px solid var(--border-color);">
+                <div class="card-body">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-lightbulb" style="color: var(--accent); margin-right: 0.5rem;"></i>What I
+                        Learned
+                    </h3>
+                    <div
+                        style="background: var(--light-bg); padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); color: var(--text-secondary); line-height: 1.8;">
+                        {{ project.what_learned|linebreaks }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap">
+                {% if project.link %}
+                <a href="{{ project.link }}" target="_blank" class="btn btn-primary btn-lg">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+                {% endif %}
+                <a href="{% url 'portfolio:projects' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
             </div>
         </div>
 
         <div class="col-lg-4">
-            <div class="card sticky-top">
+            <div class="card sticky-top" style="border: 1px solid var(--border-color); top: 100px;">
                 <div class="card-body">
-                    <h5 class="card-title">Project Info</h5>
+                    <h5 style="color: var(--primary); margin-bottom: 1.5rem;">
+                        <i class="fas fa-info-circle" style="color: var(--accent); margin-right: 0.5rem;"></i>Project
+                        Info
+                    </h5>
                     <ul class="list-unstyled">
-                        <li class="mb-3">
-                            <strong>Title:</strong><br>
-                            {{ project.title }}
+                        <li class="mb-3 pb-3" style="border-bottom: 1px solid var(--border-color);">
+                            <strong style="color: var(--primary);">Title</strong><br>
+                            <span style="color: var(--text-secondary); font-size: 0.95rem;">{{ project.title }}</span>
                         </li>
                         <li class="mb-3">
-                            <strong>Technologies:</strong><br>
-                            <small>{{ project.tools_used }}</small>
+                            <strong style="color: var(--primary);">Technologies</strong><br>
+                            <small style="color: var(--text-secondary);">{{ project.tools_used }}</small>
                         </li>
                     </ul>
                 </div>

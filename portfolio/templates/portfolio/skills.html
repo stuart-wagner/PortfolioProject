@@ -1,60 +1,89 @@
 {% extends 'portfolio/base.html' %}
 
-{% block title %}Skills - AI Portfolio{% endblock %}
+{% block title %}Skills - Data Portfolio{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <h1 class="mb-4">Technical Skills</h1>
+<div class="py-5" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+    <div class="container">
+        <h1 style="color: white; margin-bottom: 0.5rem;">
+            <i class="fas fa-code"></i> Technical Skills
+        </h1>
+        <p class="lead" style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+            A comprehensive toolkit for data analysis, visualization, and development
+        </p>
+    </div>
+</div>
 
+<div class="container my-5">
     <div class="row">
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Languages</h5>
-                    <div>
-                        {% for skill in skills.languages %}
-                        <span class="badge bg-info mb-2">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
+            <div class="skill-card">
+                <h5><i class="fas fa-code" style="color: var(--accent); margin-right: 0.5rem;"></i>Languages</h5>
+                <div>
+                    {% for skill in skills.languages %}
+                    <span class="badge bg-info mb-2">
+                        <i class="fas fa-check-circle"></i> {{ skill }}
+                    </span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">AI & LLM Tools</h5>
-                    <div>
-                        {% for skill in skills.ai_tools %}
-                        <span class="badge bg-warning text-dark mb-2">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
+            <div class="skill-card">
+                <h5><i class="fas fa-brain" style="color: var(--accent); margin-right: 0.5rem;"></i>AI & LLM Tools</h5>
+                <div>
+                    {% for skill in skills.ai_tools %}
+                    <span class="badge bg-warning text-dark mb-2">
+                        <i class="fas fa-check-circle"></i> {{ skill }}
+                    </span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Frameworks & Libraries</h5>
-                    <div>
-                        {% for skill in skills.frameworks %}
-                        <span class="badge bg-success mb-2">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
+            <div class="skill-card">
+                <h5><i class="fas fa-cube" style="color: var(--accent); margin-right: 0.5rem;"></i>Frameworks &
+                    Libraries</h5>
+                <div>
+                    {% for skill in skills.frameworks %}
+                    <span class="badge bg-success mb-2">
+                        <i class="fas fa-check-circle"></i> {{ skill }}
+                    </span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
 
         <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Other Skills</h5>
-                    <div>
-                        {% for skill in skills.other %}
-                        <span class="badge bg-danger mb-2">{{ skill }}</span>
-                        {% endfor %}
-                    </div>
+            <div class="skill-card">
+                <h5><i class="fas fa-star" style="color: var(--accent); margin-right: 0.5rem;"></i>Other Skills</h5>
+                <div>
+                    {% for skill in skills.other %}
+                    <span class="badge bg-danger mb-2">
+                        <i class="fas fa-check-circle"></i> {{ skill }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card" style="border: 1px solid var(--border-color); background: var(--light-bg);">
+                <div class="card-body text-center py-5">
+                    <h5 style="color: var(--primary); margin-bottom: 1rem;">
+                        <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>Ready to Collaborate?
+                    </h5>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        I'm always interested in discussing new projects, creative ideas, and technical challenges.
+                        Let's work together!
+                    </p>
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Get in Touch
+                    </a>
                 </div>
             </div>
         </div>

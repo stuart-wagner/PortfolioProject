@@ -1,42 +1,107 @@
 {% extends 'portfolio/base.html' %}
 
-{% block title %}About - AI Portfolio{% endblock %}
+{% block title %}About - Data Portfolio{% endblock %}
 
 {% block content %}
+<div class="py-5" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+    <div class="container">
+        <h1 style="color: white; margin-bottom: 0.5rem;">
+            <i class="fas fa-user-circle"></i> About Me
+        </h1>
+        <p class="lead" style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+            Data Analyst | Insights Architect | Problem Solver
+        </p>
+    </div>
+</div>
+
 <div class="container my-5">
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <h1 class="mb-4">About Me</h1>
+            <div style="line-height: 1.8;">
+                <h3 class="mb-3">
+                    <i class="fas fa-chart-line" style="color: var(--accent); margin-right: 0.5rem;"></i>
+                    Technical Background
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                    I'm a data analyst and full-stack developer passionate about transforming complex datasets into
+                    actionable insights. With experience across multiple domains—from advanced analytics to business
+                    intelligence—I bring a unique perspective to solving data challenges through innovative technical
+                    solutions.
+                </p>
 
-            <h3 class="mt-4 mb-3">Technical Background</h3>
-            <p>I'm a full-stack developer passionate about AI, machine learning, and building innovative solutions. With
-                experience across multiple domains—from conversational AI to data science—I bring a unique perspective
-                to solving complex technical challenges.</p>
+                <h3 class="mt-5 mb-3">
+                    <i class="fas fa-toolbox" style="color: var(--accent); margin-right: 0.5rem;"></i>
+                    Core Expertise
+                </h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul style="color: var(--text-secondary);">
+                            <li><strong style="color: var(--primary);">Data Analytics:</strong> SQL, Python, advanced
+                                statistical analysis, data modeling</li>
+                            <li><strong style="color: var(--primary);">Visualization:</strong> Tableau, Power BI,
+                                Matplotlib, Plotly, interactive dashboards</li>
+                            <li><strong style="color: var(--primary);">AI & ML:</strong> Predictive modeling, machine
+                                learning pipelines, RAG systems</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul style="color: var(--text-secondary);">
+                            <li><strong style="color: var(--primary);">Backend Development:</strong> Django, FastAPI,
+                                Python, RESTful APIs</li>
+                            <li><strong style="color: var(--primary);">Full-Stack:</strong> React, JavaScript, HTML/CSS,
+                                responsive design</li>
+                            <li><strong style="color: var(--primary);">Data Tools:</strong> Pandas, NumPy, scikit-learn,
+                                automation workflows</li>
+                        </ul>
+                    </div>
+                </div>
 
-            <h3 class="mt-4 mb-3">Core Expertise</h3>
-            <ul>
-                <li><strong>AI & LLMs:</strong> Prompt engineering, RAG systems, LangChain, OpenAI APIs, and Claude
-                    integration</li>
-                <li><strong>Automation:</strong> Workflow orchestration with n8n, webhook integration, and process
-                    automation</li>
-                <li><strong>Backend Development:</strong> Django, FastAPI, Python, RESTful APIs</li>
-                <li><strong>Data Science:</strong> Machine learning with scikit-learn, pandas, data analysis</li>
-                <li><strong>Full-Stack:</strong> React, HTML/CSS, JavaScript, responsive design</li>
-            </ul>
+                <h3 class="mt-5 mb-3">
+                    <i class="fas fa-lightbulb" style="color: var(--accent); margin-right: 0.5rem;"></i>
+                    Philosophy
+                </h3>
+                <p style="color: var(--text-secondary); font-size: 1.05rem;">
+                    I believe in leveraging data as a strategic asset. Every analysis should be actionable, every
+                    visualization should tell a story, and every solution should drive measurable business impact. My
+                    projects demonstrate this philosophy through tangible implementations that combine cutting-edge
+                    analytics capabilities with solid engineering practices.
+                </p>
 
-            <h3 class="mt-4 mb-3">Philosophy</h3>
-            <p>I believe in building practical, user-centered solutions. Technology should be a means to solve real
-                business problems, not just showcase technical prowess. My projects demonstrate this philosophy through
-                tangible implementations that combine cutting-edge AI capabilities with solid engineering practices.</p>
-
-            <h3 class="mt-4 mb-3">Analytics & Insights</h3>
-            <p>Throughout my portfolio projects, I focus on:</p>
-            <ul>
-                <li>Creating scalable, maintainable architectures</li>
-                <li>Documenting technical decisions and trade-offs</li>
-                <li>Optimizing performance and user experience</li>
-                <li>Integrating modern AI capabilities effectively</li>
-            </ul>
+                <h3 class="mt-5 mb-3">
+                    <i class="fas fa-target" style="color: var(--accent); margin-right: 0.5rem;"></i>
+                    What Drives Me
+                </h3>
+                <div class="card" style="border: 1px solid var(--border-color); background: var(--light-bg);">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                <div style="color: var(--accent); font-size: 2rem; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <p><strong>Data-Driven Decisions</strong></p>
+                                <p style="font-size: 0.95rem; color: var(--text-secondary);">Using insights to drive
+                                    strategic choices</p>
+                            </div>
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                <div style="color: var(--accent); font-size: 2rem; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <p><strong>Elegant Solutions</strong></p>
+                                <p style="font-size: 0.95rem; color: var(--text-secondary);">Creating scalable,
+                                    maintainable systems</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div style="color: var(--accent); font-size: 2rem; margin-bottom: 0.5rem;">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <p><strong>Continuous Growth</strong></p>
+                                <p style="font-size: 0.95rem; color: var(--text-secondary);">Staying ahead of industry
+                                    trends</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
