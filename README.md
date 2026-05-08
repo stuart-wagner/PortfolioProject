@@ -87,10 +87,9 @@ portfolio_project/
    - Main site: http://localhost:8000/
    - Admin: http://localhost:8000/admin/
 
-## Database Model
+## Database Models
 
-The `Project` model includes 10 fields:
-
+### Project Model (11 fields)
 - **title** (CharField): Project name
 - **summary** (CharField): One-sentence summary
 - **business_problem** (TextField): Problem statement
@@ -99,11 +98,46 @@ The `Project` model includes 10 fields:
 - **your_role** (TextField): Your responsibilities
 - **biggest_challenge** (TextField): Technical challenge faced
 - **what_learned** (TextField): Key learnings
-- **screenshot** (ImageField): Project image
-- **link** (URLField): GitHub/demo link
+- **screenshot** (ImageField): Project image (optional)
+- **link** (URLField): GitHub/demo link (optional)
+- **order** (PositiveIntegerField): Display order on projects page
 
-Auto-generated field:
+Auto-generated:
 - **slug** (SlugField): URL-safe identifier (auto-generated from title)
+
+**Features**: 
+- Projects are ordered by the `order` field in admin
+- Reorderable directly in admin list view via editable column
+- Slug auto-generates from title on save
+
+### SkillType Model
+- **name** (CharField): Category name (e.g., Languages, Frameworks)
+- **icon** (CharField): FontAwesome icon class (16 options available)
+- **color** (CharField): Bootstrap color class (8 options)
+- **order** (PositiveIntegerField): Display order on skills page
+
+**Features**: Reorderable in admin list view
+
+### Skill Model
+- **name** (CharField): Individual skill name
+- **skill_type** (ForeignKey): Reference to SkillType
+- **order** (PositiveIntegerField): Display order within skill type
+
+**Constraints**: Unique combination of name + skill_type
+
+### Portrait Model
+- **image** (ImageField): Profile photo (uploads to `portraits/`)
+- **uploaded_at** (DateTimeField): Auto-generated timestamp
+- **is_active** (BooleanField): Only one portrait can be active
+
+**Features**: Auto-ensures only one active portrait
+
+### Resume Model
+- **file** (FileField): Resume PDF/document (uploads to `resumes/`)
+- **uploaded_at** (DateTimeField): Auto-generated timestamp
+- **is_active** (BooleanField): Only one resume can be active
+
+**Features**: Auto-ensures only one active resume
 
 ## Seeded Projects
 
@@ -205,17 +239,51 @@ The contact form requires email configuration:
 
 ## Customization
 
+### Reorder Projects
+
+Projects can be reordered via Django admin:
+
+1. Go to `/admin/portfolio/project/`
+2. See the "Order" column in the list view
+3. Click on the order value for any project to edit it directly
+4. Lower numbers appear first on the projects page
+5. Click "Save" to apply changes
+
+The same reordering feature works for:
+- **SkillTypes**: `/admin/portfolio/skilltype/`
+- **Skills**: `/admin/portfolio/skill/`
+
 ### Add New Projects
 
 1. Via Django admin:
    - Go to `/admin/portfolio/project/`
    - Click "Add Project"
-   - Fill all 10 fields
+   - Fill all fields (order is optional, defaults to 0)
    - Save
 
 2. Via management command:
-   - Edit `seed_projects.py`
+   - Edit `portfolio/management/commands/seed_projects.py`
    - Run: `python manage.py seed_projects`
+
+### Add Custom Skills
+
+1. Create SkillType (category):
+   - Go to `/admin/portfolio/skilltype/`
+   - Click "Add Skill Type"
+   - Choose name, icon (FontAwesome), color, and order
+
+2. Add Skills to the type:
+   - Go to `/admin/portfolio/skill/`
+   - Click "Add Skill"
+   - Assign to SkillType and set order
+
+### Upload Portrait and Resume
+
+- **Portrait**: Upload one image via `/admin/portfolio/portrait/`
+  - Recommended: PNG with transparent background
+  - Only active portrait displays on home page
+- **Resume**: Upload one file via `/admin/portfolio/resume/`
+  - Only active resume displays on resume page
 
 ### Modify Styling
 
@@ -227,6 +295,22 @@ The contact form requires email configuration:
 
 - Update recipient email in `portfolio/views.py` (contact function)
 - Or add environment variable for flexibility
+
+## Custom Template Tags
+
+Custom template filters are available for template use:
+
+### split Filter
+Splits a string by a separator:
+```django
+{{ tools_used|split:"," }}
+```
+
+### strip_spaces Filter
+Removes leading/trailing whitespace:
+```django
+{{ value|strip_spaces }}
+```
 
 ## Troubleshooting
 

@@ -90,6 +90,7 @@ class Project(models.Model):
     screenshot = models.ImageField(upload_to='projects/', blank=True, null=True)
     link = models.URLField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
+    order = models.PositiveIntegerField(default=0, help_text="Display order on projects page")
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -100,7 +101,8 @@ class Project(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['order', 'title']
+
 
 class Resume(models.Model):
     file = models.FileField(upload_to='resumes/')

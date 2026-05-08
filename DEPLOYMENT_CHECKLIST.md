@@ -1,0 +1,302 @@
+# Render Deployment Checklist
+
+This document provides a complete step-by-step guide to deploy the Django Portfolio to Render.com.
+
+---
+
+## Pre-Deployment Setup
+
+### 1. Generate a Secure Secret Key
+
+```bash
+python manage.py shell
+>>> from django.core.management.utils import get_random_secret_key
+>>> print(get_random_secret_key())
+```
+
+Save this 50+ character key - you'll need it for Render environment variables.
+
+### 2. Push to GitHub
+
+```bash
+git add .
+git commit -m "Prepare for Render deployment"
+git push origin main
+```
+
+**Important**: Make sure your `.env` file is in `.gitignore` (it is by default) so secrets aren't exposed.
+
+### 3. Create Render Account
+
+- Go to [render.com](https://render.com)
+- Sign up with GitHub account
+- Authorize Render to access your GitHub repositories
+
+---
+
+## Render Dashboard Setup
+
+### Step 1: Create PostgreSQL Database
+
+1. Click **"New +"** → **"PostgreSQL"**
+2. Configure:
+   - **Name**: `portfolio-db` (or your choice)
+   - **Database**: `portfolio_db`
+   - **User**: `portfolio_user`
+   - **Region**: Choose closest to your location
+   - **Plan**: Free tier (upgradeable later)
+3. Click **"Create Database"**
+4. Wait for database to start (takes 1-2 minutes)
+5. Copy the **Internal Database URL** (you'll use this for `DATABASE_URL`)
+
+### Step 2: Create Web Service
+
+1. Click **"New +"** → **"Web Service"**
+2. Configure:
+   - **Name**: `portfolio` (or your choice)
+   - **Environment**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+   - **Start Command**: `gunicorn portfolio_project.wsgi`
+   - **Plan**: Free tier
+
+3. Click **"Create Web Service"**
+
+### Step 3: Connect GitHub Repository
+
+1. On Web Service creation screen, select your GitHub repository
+2. Select the branch to deploy (usually `main`)
+3. Render will automatically deploy when you push to this branch
+
+---
+
+## Environment Variables Configuration
+
+### In Render Dashboard:
+
+1. Navigate to your Web Service
+2. Go to **"Environment"** tab
+3. Click **"Add Environment Variable"** for each of these:
+
+#### Required Variables
+
+```
+SECRET_KEY = [your-generated-secret-key-from-step-1]
+
+DEBUG = False
+
+ALLOWED_HOSTS = [your-domain].onrender.com,www.[your-domain].onrender.com
+
+DATABASE_URL = [Internal Database URL from PostgreSQL setup]
+```
+
+#### Email Variables (for contact form)
+
+```
+EMAIL_BACKEND = django.core.mail.backends.smtp.EmailBackend
+
+EMAIL_HOST = smtp.gmail.com
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = your-email@gmail.com
+
+EMAIL_HOST_PASSWORD = [your-16-character-app-specific-password]
+```
+
+**For Gmail Email**: 
+1. Enable 2-factor authentication on your Google account
+2. Visit [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords)
+3. Select "Mail" and "Windows Computer" (or your device)
+4. Copy the 16-character password generated
+5. Use this in `EMAIL_HOST_PASSWORD`
+
+#### Security Variables (for HTTPS)
+
+```
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 31536000
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+```
+
+---
+
+## Deploy
+
+1. After setting all environment variables, click **"Save"**
+2. Render automatically starts the deployment process
+3. Check the **"Logs"** tab to monitor deployment
+4. Wait for "Build successful" message
+5. Your site is live at `https://[your-service-name].onrender.com`
+
+---
+
+## Post-Deployment Checks
+
+### 1. Verify Site is Working
+
+- Visit your domain (e.g., `https://portfolio.onrender.com`)
+- Check that pages load correctly
+- Test contact form (should log to console since email is configured)
+
+### 2. Create Superuser
+
+1. In Render dashboard, go to **"Shell"** tab
+2. Run:
+   ```bash
+   python manage.py createsuperuser
+   ```
+3. Follow prompts to create admin user
+
+### 3. Seed Initial Projects
+
+In Render Shell:
+```bash
+python manage.py seed_projects
+```
+
+### 4. Access Django Admin
+
+- Go to `https://[your-domain]/admin/`
+- Log in with superuser credentials
+- Add/edit projects, skills, resume, etc.
+
+### 5. Upload Portrait and Resume
+
+In Django Admin:
+- **Portraits**: `/admin/portfolio/portrait/` - Upload a profile photo
+- **Resumes**: `/admin/portfolio/resume/` - Upload your resume PDF
+
+---
+
+## Important Notes
+
+### Media Files Storage
+
+⚠️ **Important**: The current setup stores media files on the local filesystem. On Render:
+- Files persist during the service lifecycle
+- Files are deleted when the service is rebuilt or restarted
+- To keep files permanently, configure AWS S3 storage
+
+To add S3 storage:
+1. Install boto3: `pip install boto3`
+2. Set up AWS S3 bucket
+3. Add AWS credentials as environment variables
+4. Update settings.py to use S3 backend
+
+### Custom Domain (Optional)
+
+1. In Render, go to Web Service → Custom Domain
+2. Enter your domain (e.g., `portfolio.example.com`)
+3. Add CNAME record to your domain registrar:
+   - Point to Render's provided domain
+4. SSL certificate is automatically generated by Render
+
+### Automatic Deployments
+
+Render automatically redeploys your site when you:
+- Push to your connected GitHub branch
+- Update environment variables
+- Update your database
+- Manually trigger a deploy
+
+---
+
+## Troubleshooting
+
+### Build Failed
+
+Check the logs for specific errors:
+1. Render Dashboard → Web Service → Logs
+2. Look for Python/Django errors
+3. Common issues:
+   - Missing SECRET_KEY environment variable
+   - Syntax errors in code
+   - Missing migrations
+
+### Static Files Not Loading
+
+```bash
+# In Render Shell:
+python manage.py collectstatic --noinput
+```
+
+### Database Connection Error
+
+1. Verify DATABASE_URL is correct
+2. Check database service is running
+3. Ensure web service can access database
+
+### Email Not Working
+
+1. Verify EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+2. Check EMAIL_HOST and EMAIL_PORT settings
+3. For Gmail: Verify app-specific password is correct
+4. Check spam folder for test emails
+
+### Media Files Missing After Redeploy
+
+This is expected - local filesystem doesn't persist. Consider:
+1. Setting up S3 storage
+2. Re-uploading files after each deployment
+3. Using a persistent volume (Render's paid feature)
+
+---
+
+## Updating Your Site
+
+To make changes and redeploy:
+
+1. Make code changes locally
+2. Test with `python manage.py runserver`
+3. Commit and push to GitHub:
+   ```bash
+   git add .
+   git commit -m "Update portfolio"
+   git push origin main
+   ```
+4. Render automatically detects the push and redeploys
+5. Check Render logs to confirm deployment succeeded
+
+---
+
+## Monthly Maintenance
+
+### Keep Dependencies Updated
+
+```bash
+pip list --outdated
+pip install --upgrade [package-name]
+pip freeze > requirements.txt
+git push origin main  # Render redeploys automatically
+```
+
+### Monitor Site Health
+
+1. Render Dashboard → Logs (watch for errors)
+2. Django Admin → Check for any data issues
+3. Test contact form regularly
+
+### Database Maintenance (if needed)
+
+```bash
+# In Render Shell:
+python manage.py dbshell  # Connect to PostgreSQL
+```
+
+---
+
+## Support
+
+- **Django Docs**: https://docs.djangoproject.com/
+- **Render Docs**: https://render.com/docs
+- **Django Deployment Checklist**: https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/

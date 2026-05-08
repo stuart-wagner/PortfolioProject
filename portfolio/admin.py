@@ -28,10 +28,11 @@ class PortraitAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug')
+    list_display = ('title', 'slug', 'order')
+    list_editable = ('order',)
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
-        ('Basic Info', {'fields': ('title', 'summary', 'slug')}),
+        ('Basic Info', {'fields': ('title', 'summary', 'slug', 'order')}),
         ('Details', {'fields': ('business_problem', 'tools_used', 'key_features', 'your_role', 'biggest_challenge', 'what_learned')}),
         ('Media & Link', {'fields': ('screenshot', 'link')}),
     )
