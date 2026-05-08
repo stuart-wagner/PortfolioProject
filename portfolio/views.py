@@ -3,13 +3,14 @@ from django.views.generic import ListView, DetailView
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.conf import settings
-from .models import Project, Resume
+from .models import Project, Resume, SkillType, Skill, Portrait
 from .forms import ContactForm
 
 
 def home(request):
     featured_projects = Project.objects.all()[:3]
-    context = {'featured_projects': featured_projects}
+    active_portrait = Portrait.objects.filter(is_active=True).first()
+    context = {'featured_projects': featured_projects, 'portrait': active_portrait}
     return render(request, 'portfolio/home.html', context)
 
 
@@ -33,13 +34,8 @@ class ProjectDetailView(DetailView):
 
 
 def skills(request):
-    skills_data = {
-        'languages': ['Python', 'JavaScript', 'SQL', 'HTML/CSS'],
-        'ai_tools': ['LangChain', 'OpenAI API', 'Google AI Studio', 'n8n', 'Anthropic Claude'],
-        'frameworks': ['Django', 'React', 'FastAPI', 'scikit-learn', 'pandas'],
-        'other': ['RAG', 'Prompt Engineering', 'API Integration', 'Database Design', 'Web Scraping']
-    }
-    return render(request, 'portfolio/skills.html', {'skills': skills_data})
+    skill_types = SkillType.objects.prefetch_related('skills').all()
+    return render(request, 'portfolio/skills.html', {'skill_types': skill_types})
 
 
 def resume(request):

@@ -4,19 +4,35 @@
 
 {% block content %}
 <div class="hero">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-8">
-                <h1><img src="/media/projects/SW_initials_logo.png" alt="SW Logo"
-                        style="height: 1.75em; vertical-align: text-bottom; margin-right: 1rem;"><span
-                        style="font-size: 1.3em; color: var(--accent);">Stuart Wagner</span>
-                </h1>
-                <p class="lead mb-4">Transforming complex datasets into actionable intelligence. A portfolio showcasing
-                    expertise in data analysis, visualization, and strategic decision-making through advanced analytics.
-                </p>
-                <a href="{% url 'portfolio:projects' %}" class="btn btn-hero btn-lg">
-                    <i class="fas fa-arrow-right"></i> Explore My Work
-                </a>
+    <div style="position: relative; overflow: hidden;">
+        {% if portrait %}
+        <div
+            style="position: absolute; top: -60px; right: 0; width: 55%; height: calc(100% + 60px); background: linear-gradient(to left, var(--accent), transparent); z-index: 0;">
+        </div>
+        {% endif %}
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1><img src="/media/projects/SW_initials_logo.png" alt="SW Logo"
+                            style="height: 1.75em; vertical-align: text-bottom; margin-right: 1rem;"><span
+                            style="font-size: 1.3em; color: var(--accent);">Stuart Wagner</span>
+                    </h1>
+                    <p class="lead mb-4">Transforming complex datasets into actionable intelligence. A portfolio
+                        showcasing
+                        expertise in data analysis, visualization, and strategic decision-making through advanced
+                        analytics.
+                    </p>
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-hero btn-lg">
+                        <i class="fas fa-arrow-right"></i> Explore My Work
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-end align-items-center"
+                    style="position: relative; z-index: 2; padding-right: 0;">
+                    {% if portrait %}
+                    <img src="{{ portrait.image.url }}" alt="Portrait"
+                        style="max-width: 100%; max-height: 500px; object-fit: contain; filter: drop-shadow(0 10px 30px rgba(212, 175, 55, 0.3)); margin-right: 60px;">
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>

@@ -16,58 +16,23 @@
 
 <div class="container my-5">
     <div class="row">
+        {% for skill_type in skill_types %}
         <div class="col-md-6 mb-4">
             <div class="skill-card">
-                <h5><i class="fas fa-code" style="color: var(--accent); margin-right: 0.5rem;"></i>Languages</h5>
-                <div>
-                    {% for skill in skills.languages %}
-                    <span class="badge bg-info mb-2">
-                        <i class="fas fa-check-circle"></i> {{ skill }}
-                    </span>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+                <h5><i class="{{ skill_type.icon }}" style="color: var(--accent); margin-right: 0.5rem;">
 
-        <div class="col-md-6 mb-4">
-            <div class="skill-card">
-                <h5><i class="fas fa-brain" style="color: var(--accent); margin-right: 0.5rem;"></i>AI & LLM Tools</h5>
+                    </i>{{ skill_type.name }}</h5>
                 <div>
-                    {% for skill in skills.ai_tools %}
-                    <span class="badge bg-warning text-dark mb-2">
-                        <i class="fas fa-check-circle"></i> {{ skill }}
+                    {% for skill in skill_type.skills.all %}
+                    <span
+                        class="badge bg-{{ skill_type.color }} {% if skill_type.color == 'warning' %}text-dark{% endif %} mb-2">
+                        <i class="fas fa-check-circle"></i> {{ skill.name }}
                     </span>
                     {% endfor %}
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6 mb-4">
-            <div class="skill-card">
-                <h5><i class="fas fa-cube" style="color: var(--accent); margin-right: 0.5rem;"></i>Frameworks &
-                    Libraries</h5>
-                <div>
-                    {% for skill in skills.frameworks %}
-                    <span class="badge bg-success mb-2">
-                        <i class="fas fa-check-circle"></i> {{ skill }}
-                    </span>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-4">
-            <div class="skill-card">
-                <h5><i class="fas fa-star" style="color: var(--accent); margin-right: 0.5rem;"></i>Other Skills</h5>
-                <div>
-                    {% for skill in skills.other %}
-                    <span class="badge bg-danger mb-2">
-                        <i class="fas fa-check-circle"></i> {{ skill }}
-                    </span>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 
     <div class="row mt-5">
